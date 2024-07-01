@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import './App.css'
+import { Adresse } from './type';
+import MyMap from './components/map';
 
-type Adresse = {
-  label: string;
-};
 
 function App() {
   const [adresses, setAdresses] = useState<Adresse[]>([]);
+  // Position initiale de la carte lat et long
+  const [location, setLocation]= useState<[number,number] | null >(null);
+  const [region, setRegion] = useState<[number,number]>([46.603354,1.888334]);
 
   async function getAdresse(adr: string) {
     try {
@@ -19,7 +21,6 @@ function App() {
       const response = await fetch(
         `https://api-adresse.data.gouv.fr/search/?q=${adr}`
       );
-      console.log(adr.length);
 
       // verification de la reponse de l'api (status 200)
       if (!response.ok) {
@@ -27,12 +28,16 @@ function App() {
       }
       const datas = await response.json();
       // console.log(JSON.stringify(datas, null, 2));
+      console.log(datas);
       
       const newAdr = datas.features.map((data: any) => ({
         label: data.properties.label,
+        coord: [data.geometry.coordinates[1],data.geometry.coordinates[0]],
       }));
 
       setAdresses(newAdr);
+      console.log(newAdr);
+      
 
     } catch (error) {
       console.error("Erreur lors de la requête :", error);
@@ -58,12 +63,14 @@ function App() {
         <button
         style={{backgroundColor:"transparent", border:"none"}}
         key={index}
-        onClick={()=>{alert(`Vous avez selectionné: ${item.label}`)}}
+        onClick={()=>{setLocation(item.coord)}}
         >
           {item.label}
         </button>
       ))}
     </div>
+
+    <MyMap position={location || region}/>
     </>
   )
 }
