@@ -8,7 +8,7 @@ function App() {
   const [adresses, setAdresses] = useState<Adresse[]>([]);
   // Position initiale de la carte lat et long
   const [location, setLocation]= useState<[number,number] | null >(null);
-  const [region, setRegion] = useState<[number,number]>([46.603354,1.888334]);
+  const [region] = useState<[number,number]>([46.603354,1.888334]);
 
   async function getAdresse(adr: string) {
     try {
