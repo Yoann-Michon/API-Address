@@ -27,7 +27,7 @@ function App() {
       }
       const datas = await response.json();
       // console.log(JSON.stringify(datas, null, 2));
-
+      
       const newAdr = datas.features.map((data: any) => ({
         label: data.properties.label,
       }));
@@ -52,10 +52,11 @@ function App() {
         }}
         />
         </div>
-      <div style={{}}>
+      <div style={{display: 'flex', flexDirection: 'column',cursor:"pointer"}}>
 
       {adresses.map((item, index) => (
         <button
+        style={{backgroundColor:"transparent", border:"none"}}
         key={index}
         onClick={()=>{alert(`Vous avez selectionné: ${item.label}`)}}
         >
