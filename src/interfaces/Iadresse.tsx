@@ -1,4 +1,4 @@
-export type Adresse = {
+export interface Adresse{
     label: string;
     coord: [number,number]
   };
